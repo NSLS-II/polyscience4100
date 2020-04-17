@@ -1,0 +1,272 @@
+<!--?xml version="1.0" encoding="iso-8859-1"?-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+  <title>PolyScience 4100 Instrument Support</title>
+  <meta name="generator" content="amaya 8.5, see http://www.w3.org/Amaya/">
+</head>
+
+<body>
+<h1>PolyScience 4x00 Chiller Instrument Support<br>
+</h1>
+
+
+<p>This support module consists of a simple StreamDevice protocol file 
+and database which communicates with PolyScience Model 4100 and Model 
+4200 chillers over an RS-232 serial line.&nbsp; An example IOC and EDM 
+screen are also provided.<br>
+
+    </p>
+<h1>Database Development </h1>
+
+    
+<p>The example application distributed with this support module
+      comes with a database containing all the following records and EDM
+      screens to display them.&nbsp; All record names begin with the
+      macros <span style="font-family: monospace;">$(P)$(R)</span>.&nbsp;
+
+      Only the portion of the record names following this prefix are
+      shown in the following tables.&nbsp; All I/O records have
+      DTYP=stream and INP or OUT="@devPolyScience4100.proto <span style="font-style: italic;">xxx</span> ($(PORT) <span style="font-style:
+        italic;">yyy</span>)", where $(PORT) expands to the port name in
+      the ASYN serial port configuration command and <span style="font-style:
+        italic;">xxx</span> is a numeric value as described below.&nbsp; The serial port should be configured as 9600-8N1, no flow control.<br>
+      <br>
+    </p>
+<h2>Control Records</h2>
+<h2>
+    
+
+
+    
+
+
+    
+</h2>
+<table style=" text-align: left; width: 80%; margin-left: auto; margin-right: auto;" cellspacing="2" cellpadding="2" border="1">
+
+
+      <tbody>
+        <tr>
+          <td style="text-align: center;"><span style="font-weight:
+              bold;">Name</span><br>
+          </td>
+          <th style="text-align: center;">Record Type<br>
+          </th>
+          <th style="text-align: center;">Description<br>
+          </th>
+        </tr>
+        <tr>
+          <td style="text-align: center;">OffOn<br>
+          </td>
+          <td style="text-align: center;">bo<br>
+          </td>
+          <td style="vertical-align: top;" valign="middle" align="left">Turn unit off or on.&nbsp; This record is currently not added to the autosave requests.<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">Setpoint<br>
+          </td>
+          <td style="text-align: center;">longout<br>
+          </td>
+          <td style="vertical-align: middle; text-align: left;">Set the chiller temperature 
+setpoint.&nbsp; The units are either °F or °C as selected from the front
+ panel of the chiller.&nbsp; The UnitsRbk monitor record holds the unit 
+selection.
+          </td>
+        </tr>
+      </tbody>
+    
+</table>
+
+
+    <br>
+
+
+    
+<h2>Monitor Records</h2>
+<p>All names end with 'Rbk' to indicate that these are readback values.<br>
+</p>
+
+    
+    
+<table style=" text-align: left; width: 80%; margin-left: auto; margin-right: auto;" cellspacing="2" cellpadding="2" border="1">
+
+      <tbody>
+        <tr>
+          <td style="text-align: center;"><span style="font-weight: bold;">Name</span><br>
+          </td>
+          <td style="text-align: center;"><span style="font-weight: bold;">Record Type<br>
+</span><span style="font-weight: bold;">
+            </span></td>
+          <td style="text-align: center;"><span style="font-weight: bold;">Desc</span><span style="font-weight: bold;">ription</span><br>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">UnitsRbk</td>
+          <td style="text-align: center;">bi</td>
+          <td style="text-align: left;">The single character F or C indicating the temperature units selected from the chiller front panel.<br>
+</td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">TemperatureRbk</td>
+          <td style="text-align: center;">ai</td>
+          <td style="text-align: left;">Chiller output temperature.</td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">SetpointRbk<br>
+          </td>
+          <td style="text-align: center;">ai<br>
+          </td>
+          <td style="text-align: left;">Readback of temperature setpoint.<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">PressureRbk<br>
+          </td>
+          <td style="text-align: center;">ai<br>
+          </td>
+          <td style="text-align: left;">Pump pressure (PSI).<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">FlowRbk<br>
+          </td>
+          <td style="text-align: center;">ai<br>
+          </td>
+          <td style="text-align: left;">Flow rate (GPM).<br>
+</td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">BoardTempRbk<br>
+          </td>
+          <td style="text-align: center;">ai<br>
+          </td>
+          <td style="text-align: left;">Chiller internal temperature.<br>
+</td>
+        </tr>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </tbody>
+    
+</table>
+
+    <br>
+<h2>Internal Records<br>
+</h2>
+
+
+    
+<p>These records contain no I/O values and are used to assist the operation of the support module.<br>
+
+</p>
+
+
+    
+<table style=" text-align: left; width: 80%; margin-left: auto; margin-right: auto;" cellspacing="2" cellpadding="2" border="1">
+
+
+      <tbody>
+        <tr>
+          <td style="text-align: center;"><span style="font-weight:
+              bold;">Name</span><br>
+          </td>
+          
+          <td style="text-align: center;"><span style="font-weight: bold;">Record Type</span></td>
+<th style="text-align: center;">Description<br>
+          </th>
+        </tr>
+        <tr>
+  <td style="text-align: center;">init_<br>
+  </td>
+  <td style="text-align: center;">bo<br>
+  </td>
+  <td style="text-align: left;">Sends commands required before other I/O operations can proceed.<br>
+  </td>
+</tr>
+<tr>
+          <td style="text-align: center;">Readback_<br>
+          </td>
+          
+          <td style="text-align: center;">fanout<br>
+  </td>
+<td style="text-align: left;">Initiates processing of all 
+monitoring input records.&nbsp; Since there are more input records than can 
+be referenced in a single fanout record this record also forward links 
+to another fanout record ReadbackA_.&nbsp; Typically PINI="YES" and SCAN="10 second".<br>
+</td>
+        </tr><tr>
+    <td style="text-align: center;">connCheck_<br>
+    </td>
+    <td style="text-align: center;">calcout<br>
+    </td>
+    <td style="text-align: left;">Monitors the status readback record and processes the reconn_ record when the chiller is (re)connected to the IOC.<br>
+    </td>
+  </tr>
+  <tr>
+    <td style="text-align: center;">reconn_<br>
+    </td>
+    <td style="text-align: center;">fanout<br>
+    </td>
+    <td style="text-align: left;">Initiate processing of all control records to push settings to chiller when it is (re)connected to the IOC.<br>
+    </td>
+  </tr>
+
+      </tbody>
+    
+</table>
+
+
+    <br>
+
+
+    
+
+<h1>Using PolyScience 4x00 Chiller support in an application</h1>
+<p style="color: rgb(0, 0, 0); font-family: -webkit-standard; font-style: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;">Several files need minor modifications to use this support in an application.</p>
+<ol style="color: rgb(0, 0, 0); font-family: -webkit-standard; font-style: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;">
+<li>Add the full path to the PolyScience4x00, Stream Device and ASYN support directories to the application<span class="Apple-converted-space">&nbsp;</span><tt>configure/RELEASE</tt><span class="Apple-converted-space">&nbsp;</span>file:<br><tt style="font-family: monospace;">STREAMDEVICE =<span class="Apple-converted-space">&nbsp;</span></tt><span style="font-style: italic; font-family: monospace;">xxxx</span><tt style="font-family: monospace;">/modules/soft/stream</tt><tt style="font-family: monospace;">&lt;release&gt;</tt><br style="font-family: monospace;"><tt style="font-family: monospace;">ASYN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =<span class="Apple-converted-space">&nbsp;</span></tt><span style="font-style: italic; font-family: monospace;">xxxx</span><tt style="font-family: monospace;">/modules/soft/asyn</tt><tt style="font-family: monospace;">&lt;release&gt;</tt><br style="font-family: monospace;"><tt style="font-family: monospace;">CHILLER4X00&nbsp;</tt><tt style="font-family: monospace;"> =</tt><em style="font-family: monospace;"><span class="Apple-converted-space">&nbsp;</span>xxxx</em><tt style="font-family: monospace;">/modules/analog/PolyScience4x00&lt;release&gt;</tt><br>Where<span class="Apple-converted-space">&nbsp;</span><tt>&lt;release&gt;</tt><span class="Apple-converted-space">&nbsp;</span>is the release number of of the support.</li><li>Add support to application database definition file<br>The
+ application database definition file must include the database 
+definition files for the Stream Device and ASYN support.&nbsp; There are
+ two ways that this can be done:<ul><li>If you are building your application database definition file from an<span class="Apple-converted-space">&nbsp;</span><em>xxx</em><tt>Include.dbd</tt><span class="Apple-converted-space">&nbsp;</span>file you include the additional database definitions in that file:<br><tt>include "base.dbd"</tt><br><tt>include "stream.dbd"<br>include "drvAsynIPPort.dbd"<br></tt></li><li>If
+ you are building your application database definition file from the 
+application Makefile you specify the additional database definitions 
+there:<br><em>xxx</em><tt>_DBD += base.dbd</tt><br><em>xxx</em><tt>_DBD += stream.dbd</tt><br><em>xxx</em><tt>_DBD +=<span class="Apple-converted-space">&nbsp;</span></tt><tt>drvAsynIPPort</tt><tt>.dbd</tt><br></li></ul></li><li>Add the Stream Device and ASYN support libraries to the application by adding the&nbsp; lines<br><em>xxx</em><tt>_LIBS += stream</tt><br><em>xxx</em><tt>_LIBS += asyn</tt><br>before the<span class="Apple-converted-space">&nbsp;</span><br><em>xxx</em><tt>_LIBS += $(EPICS_BASE_IOC_LIBS)</tt><br>in the application Makefile.</li><li>In
+ the application startup script specify the serial port to which the 
+chiller is connected by adding a drvAsynSerialPortConfigure or 
+drvAsynIPPortConfigureline command:<br><span style="font-family: monospace;">drvAsynIPPortConfigure("</span><em>&lt;PORT&gt;</em><span style="font-family: monospace;">","</span><em>&lt;Serial/LANaddress&gt;</em><span style="font-family: monospace;">:</span><span style="font-family: monospace;"><em>&lt;Serial/LANport&gt;</em><span style="font-family: monospace;"></span> COM",0,0,0)</span></li><li>Set the serial port parameters:<br>
+  <span style="font-family: monospace;">asynSetOption</span>("<em>&lt;PORT&gt;</em>", -1, "baud", "19200")<br>
+  <span style="font-family: monospace;">asynSetOption</span>("<em>&lt;PORT&gt;</em>", -1, "bits", "8")<br>
+  <span style="font-family: monospace;">asynSetOption</span>("<em>&lt;PORT&gt;</em>", -1, "parity", "none")<br>
+  <span style="font-family: monospace;">asynSetOption</span>("<em>&lt;PORT&gt;</em>", -1, "stop", "1")<br>
+  <span style="font-family: monospace;">asynSetOption</span>("<em>&lt;PORT&gt;</em>", -1, "crtscts", "N")<br>
+</li>
+  <li>This support module provides a Stream Device protocol file which 
+must be placed in a spot where it can be found.&nbsp; I put protocol 
+files into my application “db” directory by adding a line like this<br><span style="font-family: monospace;">DB_INSTALLS += $(CHILLER4X00</span><tt style="font-family: monospace;">)/db/devPolyScience4100</tt><tt><span style="font-family: monospace;">.proto</span><br></tt>to the application<span class="Apple-converted-space">&nbsp;</span><span style="font-style: italic;">xxx</span>/Db/Makefile.<br></li>
+<li>This support module provides an example database.&nbsp; To use this add<br><span style="font-family: monospace;">DB_INSTALLS += $(</span><span style="font-family: monospace;">CHILLER4X00</span><tt style="font-family: monospace;">)/db/devPolyScience4100</tt><tt><span style="font-family: monospace;">.db</span><br></tt>to the application<span class="Apple-converted-space">&nbsp;</span><span style="font-style: italic;">xxx</span>/Db/Makefile and add<br><tt>dbLoadRecords("db/</tt><tt><tt style="font-family: monospace;">devPolyScience4100</tt><tt><span style="font-family: monospace;"></span></tt>.db,"P=</tt><em>&lt;P&gt;</em><tt>,R=</tt><em>&lt;R&gt;</em><tt>,PORT=</tt><em>&lt;PORT&gt;</em><tt>")</tt><br>to the application startup script.&nbsp; You'll have to provide appropriate values for the PV name prefixes (<em>&lt;P&gt;</em><span class="Apple-converted-space">&nbsp;</span>and<span class="Apple-converted-space">&nbsp;</span><em>&lt;R&gt;</em>) and the port name(<em>&lt;PORT&gt;</em>). The port name must match the value specified in the<span class="Apple-converted-space">&nbsp;</span><span style="font-family: monospace;">drvAsynIPPortConfigure</span><span class="Apple-converted-space">&nbsp;</span>command (or<span class="Apple-converted-space">&nbsp;</span><span style="font-family: monospace;">drvAsynSerialPortConfigure</span><span class="Apple-converted-space">&nbsp;</span>if you're using a direct serial port connection).<br></li>
+</ol>
+<br class="Apple-interchange-newline">
+
+</body></html>
