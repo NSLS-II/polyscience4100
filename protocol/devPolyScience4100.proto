@@ -1,0 +1,31 @@
+#originally by Eric. Norum 
+
+Terminator = CR;
+
+init {
+    out "SE0";
+    in "!";
+}
+
+setBoolean {
+    out "\$1%d";
+    in "!";
+}
+setSetpoint {
+    out "SS%.1f";
+    in "!";
+}
+
+getD {
+    out "R\$1";
+    in "%d";
+}
+getF {
+    out "R\$1";
+    in "%g";
+}
+
+getTemperatureUnits {
+    out "RU";
+    in "%{C|F}";
+}

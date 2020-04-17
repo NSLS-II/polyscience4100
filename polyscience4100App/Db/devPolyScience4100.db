@@ -1,0 +1,160 @@
+###############################################################################
+# Outputs
+record(bo, "$(P)$(R)OffOn") {
+    field(DESC, "Turn unit off or on")
+    field(DTYP, "stream")
+    field(OUT,  "@devPolyScience4100.proto setBoolean(SO) $(PORT)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(VAL,  "1")
+}
+record(ao, "$(P)$(R)Setpoint") {
+    field(DESC, "Set temperature setpoint")
+    field(DTYP, "stream")
+    field(OUT,  "@devPolyScience4100.proto setSetpoint $(PORT)")
+    field(PREC, "1")
+    field(FLNK, "$(P)$(R)SetpointRbk")
+    field(LOPR, "5")
+    field(HOPR, "50")
+    field(DRVL, "5")
+    field(DRVH, "50")
+    field(VAL,  "15")
+    info(autosaveFields_pass1, "VAL")
+}
+
+###############################################################################
+# Monitors
+record(bi, "$(P)$(R)UnitsRbk") {
+    field(DESC, "Read temperature units")
+    field(DTYP, "stream")
+    field(INP,  "@devPolyScience4100.proto getTemperatureUnits $(PORT)")
+    field(ZNAM, "C")
+    field(ONAM, "F")
+}
+record(ai, "$(P)$(R)TemperatureRbk") {
+    field(DESC, "Read temperature")
+    field(DTYP, "stream")
+    field(INP,  "@devPolyScience4100.proto getF(T) $(PORT)")
+    field(PREC, "1")
+}
+record(ai, "$(P)$(R)SetpointRbk") {
+    field(DESC, "Read temperature setpoint")
+    field(DTYP, "stream")
+    field(INP,  "@devPolyScience4100.proto getF(S) $(PORT)")
+    field(PREC, "1")
+    field(LOPR, "5")
+    field(HOPR, "50")
+}
+record(ai, "$(P)$(R)PressureRbk") {
+    field(DESC, "Read pump pressue (PSI)")
+    field(DTYP, "stream")
+    field(INP,  "@devPolyScience4100.proto getF(P) $(PORT)")
+    field(EGU,  "PSI")
+    field(PREC, "1")
+}
+record(ai, "$(P)$(R)FlowRbk") {
+    field(DESC, "Read flow (GPM)")
+    field(DTYP, "stream")
+    field(INP,  "@devPolyScience4100.proto getF(G) $(PORT)")
+    field(EGU,  "GPM")
+    field(PREC, "1")
+}
+record(ai, "$(P)$(R)BoardTempRbk") {
+    field(DESC, "Read PCB temperature")
+    field(DTYP, "stream")
+    field(INP,  "@devPolyScience4100.proto getF(A) $(PORT)")
+    field(PREC, "1")
+}
+record(ai, "$(P)$(R)PressureRbkSI") {
+    field(DESC, "Read pump pressue (kPa)")
+    field(DTYP, "stream")
+    field(INP,  "@devPolyScience4100.proto getF(K) $(PORT)")
+    field(EGU,  "kPa")
+    field(PREC, "1")
+}
+record(ai, "$(P)$(R)FlowRbkSI") {
+    field(DESC, "Read flow (LPM)")
+    field(DTYP, "stream")
+    field(INP,  "@devPolyScience4100.proto getF(L) $(PORT)")
+    field(EGU,  "LPM")
+    field(PREC, "1")
+}
+
+# Described in manual but not supported in software (!!!)
+#record(mbbi, "$(P)$(R)StatusRbk") {
+#    field(DESC, "System status")
+#    field(DTYP, "stream")
+#    field(INP,  "@devPolyScience4100.proto getD(F) $(PORT)")
+#    field(ZRVL, "0")
+#    field(ZRST, "System OK")
+#    field(ONVL, "2")
+#    field(ONST, "Low Temperature")
+#    field(TWVL, "3")
+#    field(TWST, "High Temperature")
+#    field(THVL, "5")
+#    field(THST, "Low Liquid Level")
+#    field(FRVL, "6")
+#    field(FRST, "High Bath Temperature")
+#    field(FVVL, "7")
+#    field(FVST, "Low Flow")
+#    field(SXVL, "8")
+#    field(SXST, "High Pressure")
+#    field(SVVL, "9")
+#    field(SVST, "Internal Software Fault")
+#    field(EIVL, "10")
+#    field(EIST, "Power Component Fault")
+#    field(NIVL, "11")
+#    field(NIST, "Internal Probe Fault")
+#    field(TEVL, "13")
+#    field(TEST, "Communications Fault")
+#    field(ELVL, "14")
+#    field(ELST, "ADC Fault")
+#    field(TVVL, "16")
+#    field(TVST, "High Ambient Temperature")
+#    field(FLNK, "$(P)$(R)connCheck_")
+#}
+
+###############################################################################
+# Send device communication initialization commands
+record(bo, "$(P)$(R)init_") {
+    field(DESC, "Initialize device communication")
+    field(DTYP, "stream")
+    field(OUT,  "@devPolyScience4100.proto init $(PORT)")
+}
+
+###############################################################################
+# Dummy records to trigger monitor record processing
+record(fanout, "$(P)$(R)Readback_") {
+    field(DESC, "Dummy record to scan monitor records")
+    field(SCAN, "10 second")
+    field(LNK1, "$(P)$(R)UnitsRbk")
+    field(LNK2, "$(P)$(R)TemperatureRbk")
+    field(LNK3, "$(P)$(R)SetpointRbk")
+    field(LNK4, "$(P)$(R)PressureRbk")
+    field(LNK5, "$(P)$(R)FlowRbk")
+    field(LNK6, "$(P)$(R)BoardTempRbk")
+    field(FLNK, "$(P)$(R)ReadbackA_")
+}
+record(fanout, "$(P)$(R)ReadbackA_") {
+    field(DESC, "Dummy record to scan monitor records")
+    field(LNK1, "$(P)$(R)PressureRbkSI")
+    field(LNK2, "$(P)$(R)FlowRbkSI")
+}
+
+###############################################################################
+# Push values to chiller on reconnection.
+# Monitor the status readback to detect reconnection.
+record(calcout, "$(P)$(R)connCheck_") {
+    field(DESC, "Push on reconnect")
+    field(INPA, "$(P)$(R)TemperatureRbk.STAT NPP")
+    field(INPD, "0")
+    field(CALC, "(A=0&&D!=0);D:=A")
+    field(OOPT, "When Non-zero")
+    field(OUT,  "$(P)$(R)reconn_.PROC")
+}
+record(fanout, "$(P)$(R)reconn_") {
+    field(PINI, "YES")
+    field(LNK1, "$(P)$(R)init_")
+    field(LNK2, "$(P)$(R)OffOn")
+    field(LNK3, "$(P)$(R)Setpoint")
+}
